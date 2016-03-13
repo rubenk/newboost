@@ -70,7 +70,7 @@ AC_LINK_IFELSE(
 
      BOOST_AUTO_TEST_CASE(autoconf)
      {
-       BOOST_TEST(true);
+       BOOST_CHECK(true);
      }
 
      int main(int argc, char *argv[])
