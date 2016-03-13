@@ -1,6 +1,11 @@
 AC_INIT([newboost], [1.0.0])
 AC_LANG([C++])
 
+AC_ARG_VAR([BOOST_CPPFLAGS], [Preprocessor flags for Boost])
+AC_ARG_VAR([BOOST_LDFLAGS], [Linker flags for Boost])
+
+SAVE_CPPFLAGS="$CPPFLAGS"
+CPPFLAGS="$BOOST_CPPFLAGS $CPPFLAGS"
 AC_CHECK_HEADERS([boost/version.hpp], [], [
   AC_MSG_ERROR([Unable to find Boost headers])
 ])
@@ -25,12 +30,13 @@ AC_CHECK_HEADERS([boost/program_options.hpp], [], [
 
 AC_MSG_CHECKING([for Boost.Program_options])
 SAVE_LDFLAGS="$LDFLAGS"
-LDFLAGS="-lboost_program_options $LDFLAGS"
+LDFLAGS="$BOOST_LDFLAGS -lboost_program_options $LDFLAGS"
 AC_LINK_IFELSE(
   [AC_LANG_PROGRAM(
    [[#include <boost/program_options.hpp>]],
    [[
-     boost::program_options::variables_map::variables_map dummy;
+     boost::program_options::variables_map vm;
+     boost::program_options::notify(vm);
    ]]
   )],
   [AC_MSG_RESULT([yes])],
@@ -38,4 +44,4 @@ AC_LINK_IFELSE(
 )
 LDFLAGS="$SAVE_LDFLAGS"
 
-
+CPPFLAGS="$SAVE_CPPFLAGS"
