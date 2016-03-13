@@ -30,7 +30,8 @@ AC_LINK_IFELSE(
   [AC_LANG_PROGRAM(
    [[#include <boost/program_options.hpp>]],
    [[
-     boost::program_options::variables_map::variables_map dummy;
+     boost::program_options::variables_map vm;
+     boost::program_options::notify(vm);
    ]]
   )],
   [AC_MSG_RESULT([yes])],
